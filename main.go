@@ -1,10 +1,14 @@
 package main
 
-func Add(a int, b int) int {
-	return a + b
-}
+import (
+	"github.com/zcong1993/note/internal"
+)
 
 func main() {
-	c := Add(1, 2)
-	println(c)
+	internal.Insert("hello")
+	//e, _ := internal.DeleteAll()
+	//println("delete ", e)
+	//internal.Flush()
+	a, _ := internal.GetAll()
+	internal.ShowNotes(a)
 }
