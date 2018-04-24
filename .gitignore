@@ -32,3 +32,5 @@ bin
 vendor
 
 coverage.txt
+
+*.db

@@ -21,7 +21,7 @@ type Note struct {
 var orm *xorm.Engine
 
 func init() {
-	o, err := xorm.NewEngine("sqlite3", utils.DB_PATH)
+	o, err := xorm.NewEngine("sqlite3", utils.MustGetDb())
 	if err != nil {
 		utils2.Fail(fmt.Sprintf("xorm error %s. ", err.Error()))
 		return
@@ -70,7 +70,7 @@ func Flush() error {
 		utils2.LogPad(fmt.Sprintf("%s %s", colors.Yellow("WARN"), "Flush db. "))
 		os.Exit(0)
 	}()
-	return os.Remove(utils.DB_PATH)
+	return os.Remove(utils.MustGetDb())
 }
 
 func ShowNotes(notes []Note) {

@@ -7,13 +7,11 @@ import (
 	"path"
 )
 
-var DB_PATH string
-
-func init() {
+func MustGetDb() string {
 	home, err := homedir.Dir()
 	if err != nil {
 		utils2.Fail("An error occurred when get user home!")
 		os.Exit(1)
 	}
-	DB_PATH = path.Join(home, ".note.db")
+	return utils2.GetEnvOrDefault("DB_PATH", path.Join(home, ".note.db"))
 }

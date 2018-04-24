@@ -18,9 +18,9 @@ release:
 .PHONY: release
 
 test:
-	@go test ./...
+	DB_PATH=test.db go test ./...
 .PHONY: test
 
 test.cov:
-	@go test ./... -coverprofile=coverage.txt -covermode=atomic
+	DB_PATH=test.db go test ./... -coverprofile=coverage.txt -covermode=atomic
 .PHONY: test.cov
