@@ -23,6 +23,12 @@
   revision = "cc83f3b3ce5911279513a46d6d3316d67bedaa54"
 
 [[projects]]
+  name = "github.com/davecgh/go-spew"
+  packages = ["spew"]
+  revision = "346938d642f2ec3594ed81d874461961cd0faa76"
+  version = "v1.1.0"
+
+[[projects]]
   branch = "master"
   name = "github.com/dustin/go-humanize"
   packages = ["."]
@@ -68,14 +74,35 @@
   revision = "b8bc1bf767474819792c23f32d8286a45736f1c6"
 
 [[projects]]
+  name = "github.com/pmezard/go-difflib"
+  packages = ["difflib"]
+  revision = "792786c7400a136282c1664665ae0a8db921c6c2"
+  version = "v1.0.0"
+
+[[projects]]
+  name = "github.com/stretchr/testify"
+  packages = ["assert"]
+  revision = "12b6f73e6084dad08a7c6e575284b177ecafbc71"
+  version = "v1.2.1"
+
+[[projects]]
   name = "github.com/tj/kingpin"
   packages = ["."]
   revision = "7efc93be00e1a3a7d419da9035344e4edd3131c5"
   version = "v2.5.0"
 
+[[projects]]
+  branch = "master"
+  name = "github.com/zcong1993/utils"
+  packages = [
+    "colors",
+    "terminal"
+  ]
+  revision = "fa7a054c263f7373e8e11c54e3c5f0418e70dfef"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "76bb1ef0496bbf97911ee1de67bb0fbb7da820364700cfb8b6e3c82a61d9a047"
+  inputs-digest = "8d793de7c2f91d72e7913f2758fd7674f7d0531056f529d1b6ff2e10cde6e0ec"
   solver-name = "gps-cdcl"
   solver-version = 1

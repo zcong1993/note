@@ -3,8 +3,8 @@ package internal
 import (
 	"fmt"
 	"github.com/go-xorm/xorm"
-	"github.com/gost-c/gost-cli/colors"
-	utils2 "github.com/gost-c/gost-cli/utils"
+	"github.com/zcong1993/utils/colors"
+	"github.com/zcong1993/utils/terminal"
 	// Import sqlite3 driver
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/zcong1993/note/utils"
@@ -29,12 +29,12 @@ var orm *xorm.Engine
 func init() {
 	o, err := xorm.NewEngine("sqlite3", utils.MustGetDb())
 	if err != nil {
-		utils2.Fail(fmt.Sprintf("xorm error %s. ", err.Error()))
+		terminal.Fail(fmt.Sprintf("xorm error %s. ", err.Error()))
 		return
 	}
 	err = o.CreateTables(&Note{})
 	if err != nil {
-		utils2.Fail(err.Error())
+		terminal.Fail(err.Error())
 		return
 	}
 	orm = o
@@ -80,7 +80,7 @@ func DeleteAll() (int64, error) {
 // Flush will remove db file
 func Flush() error {
 	defer func() {
-		utils2.LogPad(fmt.Sprintf("%s %s", colors.Yellow("WARN"), "Flush db. "))
+		terminal.LogPad(fmt.Sprintf("%s %s", colors.Yellow("WARN"), "Flush db. "))
 		os.Exit(0)
 	}()
 	return os.Remove(utils.MustGetDb())
@@ -89,12 +89,12 @@ func Flush() error {
 // ShowNotes is helper func for showing notes in terminal
 func ShowNotes(notes []Note) {
 	if len(notes) == 0 {
-		utils2.LogPad(fmt.Sprintf("%s %s", colors.Green("INFO"), "No note now. "))
+		terminal.LogPad(fmt.Sprintf("%s %s", colors.Green("INFO"), "No note now. "))
 		return
 	}
 	s := ""
 	for _, note := range notes {
-		s += fmt.Sprintf("%s %s\n", colors.Blue(fmt.Sprintf("%d.", note.Id)), note.Txt)
+		s += fmt.Sprintf("%s %s\n", colors.Blue(fmt.Sprintf("%d.", note.Id)), utils.RandomColor(note.Txt))
 	}
-	utils2.LogPad(s)
+	terminal.LogPad(s)
 }
