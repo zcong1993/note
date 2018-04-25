@@ -3,10 +3,10 @@ package main
 import (
 	"errors"
 	"fmt"
-	"github.com/gost-c/gost-cli/colors"
-	"github.com/gost-c/gost-cli/utils"
-	"github.com/tj/kingpin"
 	"github.com/zcong1993/note/internal"
+	"github.com/zcong1993/utils/colors"
+	"github.com/zcong1993/utils/terminal"
+	"gopkg.in/alecthomas/kingpin.v2"
 	"os"
 	"strings"
 )
@@ -23,10 +23,14 @@ var (
 	addCmd  = app.Command("add", "add a note.")
 	addTxts = addCmd.Arg("content", "not content").Required().Strings()
 
-	listCmd = app.Command("list", "show all notes.")
+	listCmd = app.Command("list", "show all notes.").Default()
 
 	deleteCmd = app.Command("delete", "delete a note by id.")
 	deleteID  = deleteCmd.Arg("id", "note id").Required().Int64()
+
+	getCmd = app.Command("get", "get notes by limit and offset.")
+	limit  = getCmd.Flag("limit", "query limit").Short('l').Int()
+	offset = getCmd.Flag("offset", "query offset").Short('o').Int()
 
 	updateCmd = app.Command("update", "update a note.")
 	updateID  = updateCmd.Flag("id", "note id for updating.").Short('i').Required().Int64()
@@ -42,7 +46,7 @@ var (
 func list() {
 	notes, err := internal.GetAll()
 	if err != nil {
-		utils.LogErrPad(err)
+		terminal.LogErrPad(err)
 		return
 	}
 	internal.ShowNotes(notes)
@@ -52,49 +56,58 @@ func add() {
 	txt := strings.Join(*addTxts, " ")
 	_, err := internal.Insert(txt)
 	if err != nil {
-		utils.LogErrPad(err)
+		terminal.LogErrPad(err)
 		return
 	}
-	utils.LogSuccessPad("Add success.")
+	terminal.LogSuccessPad("Add success.")
 }
 
 func d() {
 	f, err := internal.Delete(*deleteID)
 	if err != nil {
-		utils.LogErrPad(err)
+		terminal.LogErrPad(err)
 		return
 	}
 	if f != 1 {
-		utils.LogErrPad(errors.New("Delete failed, maybe note not exists. "))
+		terminal.LogErrPad(errors.New("Delete failed, maybe note not exists. "))
 		return
 	}
-	utils.LogSuccessPad("Delete success.")
+	terminal.LogSuccessPad("Delete success.")
 }
 
 func update() {
 	f, err := internal.Update(*updateID, *updateTxt)
 	if err != nil {
-		utils.LogErrPad(err)
+		terminal.LogErrPad(err)
 		return
 	}
 	if f != 1 {
-		utils.LogErrPad(errors.New("Update failed, maybe note not exists. "))
+		terminal.LogErrPad(errors.New("Update failed, maybe note not exists. "))
 		return
 	}
-	utils.LogSuccessPad("Update success.")
+	terminal.LogSuccessPad("Update success.")
 }
 
 func deleteAll() {
 	f, err := internal.DeleteAll()
 	if err != nil {
-		utils.LogErrPad(err)
+		terminal.LogErrPad(err)
 		return
 	}
 	if f < 1 {
-		utils.LogErrPad(errors.New("Delete all failed, maybe no note now. "))
+		terminal.LogErrPad(errors.New("Delete all failed, maybe no note now. "))
 		return
 	}
-	utils.LogSuccessPad("Delete all success.")
+	terminal.LogSuccessPad("Delete all success.")
+}
+
+func get() {
+	notes, err := internal.GetNotes(*limit, *offset)
+	if err != nil {
+		terminal.LogErrPad(err)
+		return
+	}
+	internal.ShowNotes(notes)
 }
 
 func main() {
@@ -113,6 +126,8 @@ func main() {
 		internal.Flush()
 	case deleteAllCmd.FullCommand():
 		deleteAll()
+	case getCmd.FullCommand():
+		get()
 	default:
 		list()
 	}
@@ -123,5 +138,5 @@ func showVersion() {
 	if len(GitCommit) != 0 {
 		version += colors.Gray(fmt.Sprintf(" (%s)", GitCommit))
 	}
-	utils.LogPad(version)
+	terminal.LogPad(version)
 }

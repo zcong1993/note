@@ -4,10 +4,7 @@
 [[projects]]
   branch = "master"
   name = "github.com/alecthomas/template"
-  packages = [
-    ".",
-    "parse"
-  ]
+  packages = [".","parse"]
   revision = "a0175ee3bccc567396460bf5acd36800cb10c49c"
 
 [[projects]]
@@ -29,12 +26,6 @@
   version = "v1.1.0"
 
 [[projects]]
-  branch = "master"
-  name = "github.com/dustin/go-humanize"
-  packages = ["."]
-  revision = "02af3965c54e8cacf948b97fef38925c4120652c"
-
-[[projects]]
   name = "github.com/go-xorm/builder"
   packages = ["."]
   revision = "a9b7ffcca3f0c6445c4e3b1bf72c01578817a6c3"
@@ -51,15 +42,6 @@
   packages = ["."]
   revision = "fc1b13e0d8e240788213230aa5747eb557f80f41"
   version = "v0.6.6"
-
-[[projects]]
-  name = "github.com/gost-c/gost-cli"
-  packages = [
-    "colors",
-    "utils"
-  ]
-  revision = "9d5c2b3f2bbd5485aeb53db3f494a8531d6db717"
-  version = "v3.2.5"
 
 [[projects]]
   name = "github.com/mattn/go-sqlite3"
@@ -86,23 +68,20 @@
   version = "v1.2.1"
 
 [[projects]]
-  name = "github.com/tj/kingpin"
-  packages = ["."]
-  revision = "7efc93be00e1a3a7d419da9035344e4edd3131c5"
-  version = "v2.5.0"
-
-[[projects]]
   branch = "master"
   name = "github.com/zcong1993/utils"
-  packages = [
-    "colors",
-    "terminal"
-  ]
+  packages = ["colors","terminal"]
   revision = "fa7a054c263f7373e8e11c54e3c5f0418e70dfef"
+
+[[projects]]
+  name = "gopkg.in/alecthomas/kingpin.v2"
+  packages = ["."]
+  revision = "947dcec5ba9c011838740e680966fd7087a71d0d"
+  version = "v2.2.6"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "8d793de7c2f91d72e7913f2758fd7674f7d0531056f529d1b6ff2e10cde6e0ec"
+  inputs-digest = "f3b545a9b815236b5408e152204100dbd0e2f6de252bd505a1ef189234d06059"
   solver-name = "gps-cdcl"
   solver-version = 1
