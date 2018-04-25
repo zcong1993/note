@@ -15,7 +15,7 @@ import (
 // Note is db model
 type Note struct {
 	// Id is primary key
-	ID int64
+	Id int64
 	// Txt is note content
 	Txt string
 	// Created is created_at
