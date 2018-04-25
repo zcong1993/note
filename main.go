@@ -8,6 +8,7 @@ import (
 	"github.com/tj/kingpin"
 	"github.com/zcong1993/note/internal"
 	"os"
+	"strings"
 )
 
 var (
@@ -18,9 +19,9 @@ var (
 )
 
 var (
-	app    = kingpin.New("note", "Command line tool for note.")
-	addCmd = app.Command("add", "add a note.")
-	addTxt = addCmd.Arg("content", "not content").Required().String()
+	app     = kingpin.New("note", "Command line tool for note.")
+	addCmd  = app.Command("add", "add a note.")
+	addTxts = addCmd.Arg("content", "not content").Required().Strings()
 
 	listCmd = app.Command("list", "show all notes.")
 
@@ -48,7 +49,8 @@ func list() {
 }
 
 func add() {
-	_, err := internal.Insert(*addTxt)
+	txt := strings.Join(*addTxts, " ")
+	_, err := internal.Insert(txt)
 	if err != nil {
 		utils.LogErrPad(err)
 		return

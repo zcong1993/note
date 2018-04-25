@@ -11,6 +11,11 @@ build: generate
 	@go build -o ./bin/note main.go
 .PHONY: build
 
+local: build
+	@echo "====> Add to GOPATH"
+	@cp ./bin/note ${GOPATH}/bin
+.PHONY: local
+
 release:
 	@echo "====> Build and release"
 	@go get github.com/goreleaser/goreleaser
@@ -18,9 +23,9 @@ release:
 .PHONY: release
 
 test:
-	go test ./...
+	@go test ./...
 .PHONY: test
 
 test.cov:
-	go test ./... -coverprofile=coverage.txt -covermode=atomic
+	@go test ./... -coverprofile=coverage.txt -covermode=atomic
 .PHONY: test.cov
