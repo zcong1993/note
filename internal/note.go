@@ -5,6 +5,7 @@ import (
 	"github.com/go-xorm/xorm"
 	"github.com/gost-c/gost-cli/colors"
 	utils2 "github.com/gost-c/gost-cli/utils"
+	// Import sqlite3 driver
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/zcong1993/note/utils"
 	"os"
@@ -14,7 +15,7 @@ import (
 // Note is db model
 type Note struct {
 	// Id is primary key
-	Id int64
+	ID int64
 	// Txt is note content
 	Txt string
 	// Created is created_at

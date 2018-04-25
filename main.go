@@ -25,10 +25,10 @@ var (
 	listCmd = app.Command("list", "show all notes.")
 
 	deleteCmd = app.Command("delete", "delete a note by id.")
-	deleteId  = deleteCmd.Arg("id", "note id").Required().Int64()
+	deleteID  = deleteCmd.Arg("id", "note id").Required().Int64()
 
 	updateCmd = app.Command("update", "update a note.")
-	updateId  = updateCmd.Flag("id", "note id for updating.").Short('i').Required().Int64()
+	updateID  = updateCmd.Flag("id", "note id for updating.").Short('i').Required().Int64()
 	updateTxt = updateCmd.Arg("content", "not content").Required().String()
 
 	deleteAllCmd = app.Command("delete-all", "delete all notes.")
@@ -47,54 +47,70 @@ func list() {
 	internal.ShowNotes(notes)
 }
 
+func add() {
+	_, err := internal.Insert(*addTxt)
+	if err != nil {
+		utils.LogErrPad(err)
+		return
+	}
+	utils.LogSuccessPad("Add success.")
+}
+
+func d() {
+	f, err := internal.Delete(*deleteID)
+	if err != nil {
+		utils.LogErrPad(err)
+		return
+	}
+	if f != 1 {
+		utils.LogErrPad(errors.New("Delete failed, maybe note not exists. "))
+		return
+	}
+	utils.LogSuccessPad("Delete success.")
+}
+
+func update() {
+	f, err := internal.Update(*updateID, *updateTxt)
+	if err != nil {
+		utils.LogErrPad(err)
+		return
+	}
+	if f != 1 {
+		utils.LogErrPad(errors.New("Update failed, maybe note not exists. "))
+		return
+	}
+	utils.LogSuccessPad("Update success.")
+}
+
+func deleteAll() {
+	f, err := internal.DeleteAll()
+	if err != nil {
+		utils.LogErrPad(err)
+		return
+	}
+	if f < 1 {
+		utils.LogErrPad(errors.New("Delete all failed, maybe no note now. "))
+		return
+	}
+	utils.LogSuccessPad("Delete all success.")
+}
+
 func main() {
 	switch kingpin.MustParse(app.Parse(os.Args[1:])) {
 	case version.FullCommand():
 		showVersion()
 	case addCmd.FullCommand():
-		_, err := internal.Insert(*addTxt)
-		if err != nil {
-			utils.LogErrPad(err)
-			return
-		}
-		utils.LogSuccessPad("Add success.")
+		add()
 	case listCmd.FullCommand():
 		list()
 	case deleteCmd.FullCommand():
-		f, err := internal.Delete(*deleteId)
-		if err != nil {
-			utils.LogErrPad(err)
-			return
-		}
-		if f != 1 {
-			utils.LogErrPad(errors.New("Delete failed, maybe note not exists. "))
-			return
-		}
-		utils.LogSuccessPad("Delete success.")
+		d()
 	case updateCmd.FullCommand():
-		f, err := internal.Update(*updateId, *updateTxt)
-		if err != nil {
-			utils.LogErrPad(err)
-			return
-		}
-		if f != 1 {
-			utils.LogErrPad(errors.New("Update failed, maybe note not exists. "))
-			return
-		}
-		utils.LogSuccessPad("Update success.")
+		update()
 	case flushCmd.FullCommand():
 		internal.Flush()
 	case deleteAllCmd.FullCommand():
-		f, err := internal.DeleteAll()
-		if err != nil {
-			utils.LogErrPad(err)
-			return
-		}
-		if f < 1 {
-			utils.LogErrPad(errors.New("Delete all failed, maybe no note now. "))
-			return
-		}
-		utils.LogSuccessPad("Delete all success.")
+		deleteAll()
 	default:
 		list()
 	}
