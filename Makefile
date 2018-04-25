@@ -7,7 +7,7 @@ install:
 	@dep ensure
 
 build: generate
-	@echo "====> Build telnetor cli"
+	@echo "====> Build note cli"
 	@go build -o ./bin/note main.go
 .PHONY: build
 

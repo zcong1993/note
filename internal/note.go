@@ -11,10 +11,15 @@ import (
 	"time"
 )
 
+// Note is db model
 type Note struct {
-	Id      int64
-	Txt     string
+	// Id is primary key
+	Id int64
+	// Txt is note content
+	Txt string
+	// Created is created_at
 	Created time.Time `xorm:"created"`
+	// Updated is updated_at
 	Updated time.Time `xorm:"updated"`
 }
 
@@ -34,37 +39,44 @@ func init() {
 	orm = o
 }
 
-func Insert(txt string) error {
-	_, err := orm.Insert(&Note{Txt: txt})
-	return err
+// Insert add a note into db
+func Insert(txt string) (int64, error) {
+	f, err := orm.Insert(&Note{Txt: txt})
+	return f, err
 }
 
+// GetAll get all the notes from db
 func GetAll() ([]Note, error) {
 	var notes []Note
 	err := orm.Find(&notes)
 	return notes, err
 }
 
+// GetNotes can get notes by limit and offset
 func GetNotes(limit, offset int) ([]Note, error) {
 	var notes []Note
 	err := orm.Limit(limit, offset).Find(&notes)
 	return notes, err
 }
 
-func Update(id int64, txt string) error {
-	_, err := orm.ID(id).Update(&Note{Txt: txt})
-	return err
+// Update can update a note by id
+func Update(id int64, txt string) (int64, error) {
+	f, err := orm.ID(id).Update(&Note{Txt: txt})
+	return f, err
 }
 
-func Delete(id int64) error {
-	_, err := orm.ID(id).Delete(new(Note))
-	return err
+// Delete can delete a note by id
+func Delete(id int64) (int64, error) {
+	f, err := orm.ID(id).Delete(new(Note))
+	return f, err
 }
 
+// DeleteAll can delete all the note
 func DeleteAll() (int64, error) {
 	return orm.Where("id > 0").Delete(new(Note))
 }
 
+// Flush will remove db file
 func Flush() error {
 	defer func() {
 		utils2.LogPad(fmt.Sprintf("%s %s", colors.Yellow("WARN"), "Flush db. "))
@@ -73,6 +85,7 @@ func Flush() error {
 	return os.Remove(utils.MustGetDb())
 }
 
+// ShowNotes is helper func for showing notes in terminal
 func ShowNotes(notes []Note) {
 	if len(notes) == 0 {
 		utils2.LogPad(fmt.Sprintf("%s %s", colors.Green("INFO"), "No note now. "))

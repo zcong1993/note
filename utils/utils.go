@@ -7,6 +7,7 @@ import (
 	"path"
 )
 
+// MustGetDb is func return db path or abort
 func MustGetDb() string {
 	home, err := homedir.Dir()
 	if err != nil {
