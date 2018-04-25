@@ -13,5 +13,8 @@ jobs:
           name: get deps
           command: make install
       - run:
+          name: test
+          command: make test
+      - run:
           name: build
           command: make build
