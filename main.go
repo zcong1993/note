@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/zcong1993/note/internal"
+	"github.com/zcong1993/note/internal/sqlite"
 	"github.com/zcong1993/utils/colors"
 	"github.com/zcong1993/utils/terminal"
 	"gopkg.in/alecthomas/kingpin.v2"
@@ -43,8 +44,8 @@ var (
 	version = app.Command("version", "Show note cli version.")
 )
 
-func list() {
-	notes, err := internal.GetAll()
+func list(db internal.DB) {
+	notes, err := db.GetAll()
 	if err != nil {
 		terminal.LogErrPad(err)
 		return
@@ -52,9 +53,9 @@ func list() {
 	internal.ShowNotes(notes)
 }
 
-func add() {
+func add(db internal.DB) {
 	txt := strings.Join(*addTxts, " ")
-	_, err := internal.Insert(txt)
+	_, err := db.Insert(txt)
 	if err != nil {
 		terminal.LogErrPad(err)
 		return
@@ -62,8 +63,8 @@ func add() {
 	terminal.LogSuccessPad("Add success.")
 }
 
-func d() {
-	f, err := internal.Delete(*deleteID)
+func d(db internal.DB) {
+	f, err := db.Delete(*deleteID)
 	if err != nil {
 		terminal.LogErrPad(err)
 		return
@@ -75,8 +76,8 @@ func d() {
 	terminal.LogSuccessPad("Delete success.")
 }
 
-func update() {
-	f, err := internal.Update(*updateID, *updateTxt)
+func update(db internal.DB) {
+	f, err := db.Update(*updateID, *updateTxt)
 	if err != nil {
 		terminal.LogErrPad(err)
 		return
@@ -88,8 +89,8 @@ func update() {
 	terminal.LogSuccessPad("Update success.")
 }
 
-func deleteAll() {
-	f, err := internal.DeleteAll()
+func deleteAll(db internal.DB) {
+	f, err := db.DeleteAll()
 	if err != nil {
 		terminal.LogErrPad(err)
 		return
@@ -101,8 +102,8 @@ func deleteAll() {
 	terminal.LogSuccessPad("Delete all success.")
 }
 
-func get() {
-	notes, err := internal.GetNotes(*limit, *offset)
+func get(db internal.DB) {
+	notes, err := db.GetNotes(*limit, *offset)
 	if err != nil {
 		terminal.LogErrPad(err)
 		return
@@ -111,25 +112,24 @@ func get() {
 }
 
 func main() {
+	sqliteDb := sqlite.NewSqliteDB()
 	switch kingpin.MustParse(app.Parse(os.Args[1:])) {
 	case version.FullCommand():
 		showVersion()
 	case addCmd.FullCommand():
-		add()
+		add(sqliteDb)
 	case listCmd.FullCommand():
-		list()
+		list(sqliteDb)
 	case deleteCmd.FullCommand():
-		d()
+		d(sqliteDb)
 	case updateCmd.FullCommand():
-		update()
+		update(sqliteDb)
 	case flushCmd.FullCommand():
-		internal.Flush()
+		sqliteDb.Flush()
 	case deleteAllCmd.FullCommand():
-		deleteAll()
+		deleteAll(sqliteDb)
 	case getCmd.FullCommand():
-		get()
-	default:
-		list()
+		get(sqliteDb)
 	}
 }
 
