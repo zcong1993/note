@@ -16,7 +16,7 @@ var (
 	// GitCommit is commit hash for version
 	GitCommit = ""
 	// Version is app version
-	Version = "v0.1.0"
+	Version = "v0.2.0"
 )
 
 var (
