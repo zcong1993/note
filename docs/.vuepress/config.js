@@ -3,7 +3,7 @@ module.exports = {
   description: 'Note in terminal',
   head: [
     ['link', { rel: 'icon', href: `/icons/favicon.ico` }],
-    ['link', { rel: 'manifest', href: '/manifest.json' }],
+    ['link', { rel: 'manifest', href: '/icons/site.webmanifest' }],
     ['meta', { name: 'theme-color', content: '#3eaf7c' }],
     ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
     ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }],
