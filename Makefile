@@ -29,3 +29,13 @@ test:
 test.cov:
 	@go test ./... -coverprofile=coverage.txt -covermode=atomic
 .PHONY: test.cov
+
+docs:
+	@echo "====> Build docs"
+	@vuepress build docs
+.PHONY: docs
+
+deploydocs: docs
+	@echo "====> Deploy docs to netlify"
+	@netlify deploy -p docs/.vuepress/dist
+.PHONY: deploydocs
