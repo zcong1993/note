@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"encoding/binary"
 	"github.com/mitchellh/go-homedir"
 	"github.com/zcong1993/utils/colors"
 	"github.com/zcong1993/utils/terminal"
@@ -19,13 +20,13 @@ func getEnvOrDefault(key, d string) string {
 }
 
 // MustGetDb is func return db path or abort
-func MustGetDb() string {
+func MustGetDb(db string) string {
 	home, err := homedir.Dir()
 	if err != nil {
 		terminal.Fail("An error occurred when get user home!")
 		os.Exit(1)
 	}
-	return getEnvOrDefault("DB_PATH", path.Join(home, ".note.db"))
+	return getEnvOrDefault("DB_PATH", path.Join(home, db))
 }
 
 func random(min, max int) int {
@@ -39,4 +40,14 @@ func RandomColor(str string) string {
 	i := random(0, len(cs))
 	fn := cs[i]
 	return fn(str)
+}
+
+func Int64ToBytes(i int64) []byte {
+	var buf = make([]byte, 8)
+	binary.BigEndian.PutUint64(buf, uint64(i))
+	return buf
+}
+
+func BytesToInt64(buf []byte) int64 {
+	return int64(binary.BigEndian.Uint64(buf))
 }

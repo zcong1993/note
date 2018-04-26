@@ -4,7 +4,10 @@
 [[projects]]
   branch = "master"
   name = "github.com/alecthomas/template"
-  packages = [".","parse"]
+  packages = [
+    ".",
+    "parse"
+  ]
   revision = "a0175ee3bccc567396460bf5acd36800cb10c49c"
 
 [[projects]]
@@ -18,6 +21,12 @@
   name = "github.com/aybabtme/rgbterm"
   packages = ["."]
   revision = "cc83f3b3ce5911279513a46d6d3316d67bedaa54"
+
+[[projects]]
+  name = "github.com/boltdb/bolt"
+  packages = ["."]
+  revision = "2f1ce7a837dcb8da3ec595b1dac9d0632f0f99e8"
+  version = "v1.3.1"
 
 [[projects]]
   name = "github.com/davecgh/go-spew"
@@ -70,8 +79,17 @@
 [[projects]]
   branch = "master"
   name = "github.com/zcong1993/utils"
-  packages = ["colors","terminal"]
+  packages = [
+    "colors",
+    "terminal"
+  ]
   revision = "fa7a054c263f7373e8e11c54e3c5f0418e70dfef"
+
+[[projects]]
+  branch = "master"
+  name = "golang.org/x/sys"
+  packages = ["unix"]
+  revision = "bb9c189858d91f42db229b04d45a4c3d23a7662a"
 
 [[projects]]
   name = "gopkg.in/alecthomas/kingpin.v2"
@@ -82,6 +100,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "f3b545a9b815236b5408e152204100dbd0e2f6de252bd505a1ef189234d06059"
+  inputs-digest = "8de5b23d146c979dbb412b8b166e2a52d1bdd10a1038132c8a4d3c770c6ef39b"
   solver-name = "gps-cdcl"
   solver-version = 1

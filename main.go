@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/zcong1993/note/internal"
-	"github.com/zcong1993/note/internal/sqlite"
+	"github.com/zcong1993/note/internal/bolt"
 	"github.com/zcong1993/utils/colors"
 	"github.com/zcong1993/utils/terminal"
 	"gopkg.in/alecthomas/kingpin.v2"
@@ -112,24 +112,24 @@ func get(db internal.DB) {
 }
 
 func main() {
-	sqliteDb := sqlite.NewSqliteDB()
+	db := bolt.NewBoltDB()
 	switch kingpin.MustParse(app.Parse(os.Args[1:])) {
 	case version.FullCommand():
 		showVersion()
 	case addCmd.FullCommand():
-		add(sqliteDb)
+		add(db)
 	case listCmd.FullCommand():
-		list(sqliteDb)
+		list(db)
 	case deleteCmd.FullCommand():
-		d(sqliteDb)
+		d(db)
 	case updateCmd.FullCommand():
-		update(sqliteDb)
+		update(db)
 	case flushCmd.FullCommand():
-		sqliteDb.Flush()
+		db.Flush()
 	case deleteAllCmd.FullCommand():
-		deleteAll(sqliteDb)
+		deleteAll(db)
 	case getCmd.FullCommand():
-		get(sqliteDb)
+		get(db)
 	}
 }
 

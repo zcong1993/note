@@ -12,6 +12,8 @@ import (
 	"os"
 )
 
+const dbName = ".note.db"
+
 // DB implement db interface via sqlite3
 type DB struct {
 	orm *xorm.Engine
@@ -19,7 +21,7 @@ type DB struct {
 
 // NewSqliteDB return a sqlite driven
 func NewSqliteDB() *DB {
-	o, err := xorm.NewEngine("sqlite3", utils.MustGetDb())
+	o, err := xorm.NewEngine("sqlite3", utils.MustGetDb(dbName))
 	if err != nil {
 		terminal.Fail(fmt.Sprintf("xorm error %s. ", err.Error()))
 		os.Exit(1)
@@ -75,5 +77,5 @@ func (db *DB) Flush() error {
 		terminal.LogPad(fmt.Sprintf("%s %s", colors.Yellow("WARN"), "Flush db. "))
 		os.Exit(0)
 	}()
-	return os.Remove(utils.MustGetDb())
+	return os.Remove(utils.MustGetDb(dbName))
 }

@@ -7,11 +7,12 @@ import (
 )
 
 func TestMustGetDb(t *testing.T) {
-	p := MustGetDb()
+	mock := ".note.db"
+	p := MustGetDb(mock)
 	assert.NotEmpty(t, p, "should get db path")
 	fakePath := "test.db"
 	os.Setenv("DB_PATH", fakePath)
-	p = MustGetDb()
+	p = MustGetDb(mock)
 	assert.Equal(t, p, fakePath)
 	os.Unsetenv("DB_PATH")
 }
