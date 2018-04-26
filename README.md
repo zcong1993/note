@@ -2,6 +2,12 @@
 
 > note in terminal
 
+## Install
+
+```sh
+$ curl -sfL https://git.io/vpCMX | sh
+```
+
 ## License
 
 MIT &copy; zcong1993
