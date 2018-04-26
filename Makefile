@@ -35,6 +35,11 @@ docs:
 	@vuepress build docs
 .PHONY: docs
 
+docs.dev:
+	@echo "====> Dev docs"
+	@vuepress dev docs
+.PHONY: docs.dev
+
 deploydocs: docs
 	@echo "====> Deploy docs to netlify"
 	@netlify deploy -p docs/.vuepress/dist

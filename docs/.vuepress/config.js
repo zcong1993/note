@@ -13,4 +13,9 @@ module.exports = {
     ['meta', { name: 'msapplication-TileColor', content: '#000000' }]
   ],
   serviceWorker: true,
+  themeConfig: {
+    repo: 'zcong1993/note',
+    editLinks: true,
+    docsDir: 'docs'
+  }
 }
