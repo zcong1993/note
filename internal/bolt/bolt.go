@@ -21,7 +21,7 @@ type DB struct {
 	db *bolt.DB
 }
 
-// NewSqliteDB return a sqlite driven
+// NewBoltDB return a sqlite driven
 func NewBoltDB() *DB {
 	db, err := bolt.Open(utils.MustGetDb(dbName), 0600, &bolt.Options{Timeout: 2 * time.Second})
 	if err != nil {
@@ -39,28 +39,28 @@ func NewBoltDB() *DB {
 	return &DB{db: db}
 }
 
-func (db *DB) getNextId() int64 {
-	nextId := int64(1)
+func (db *DB) getNextID() int64 {
+	nextID := int64(1)
 	db.db.View(func(tx *bolt.Tx) error {
 		b := tx.Bucket(bucket)
 		c := b.Cursor()
 		k, _ := c.Last()
 		if k != nil {
-			nextId = utils.BytesToInt64(k) + 1
+			nextID = utils.BytesToInt64(k) + 1
 		}
 		return nil
 	})
-	return nextId
+	return nextID
 }
 
 // Insert add a note into db
 func (db *DB) Insert(txt string) (int64, error) {
-	nextId := db.getNextId()
+	nextID := db.getNextID()
 	note := internal.Note{Txt: txt}
 	n, _ := json.Marshal(note)
 	err := db.db.Update(func(tx *bolt.Tx) error {
 		b := tx.Bucket(bucket)
-		return b.Put(utils.Int64ToBytes(nextId), n)
+		return b.Put(utils.Int64ToBytes(nextID), n)
 	})
 	if err != nil {
 		return 0, err
