@@ -5,6 +5,12 @@ generate:
 install:
 	@go get -u -v github.com/golang/dep/cmd/dep
 	@dep ensure
+.PHONY: install
+
+ci:
+	@go get -u -v github.com/golang/dep/cmd/dep
+	@dep ensure -vendor-only
+.PHONY: ci
 
 build: generate
 	@echo "====> Build note cli"

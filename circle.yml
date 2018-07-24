@@ -26,7 +26,7 @@ jobs:
       - checkout
       - run:
           name: get deps
-          command: make install
+          command: make ci
       - run:
           name: release
           command: make release
