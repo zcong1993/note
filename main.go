@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/zcong1993/note/internal"
 	"github.com/zcong1993/note/internal/bolt"
+	"github.com/zcong1993/note/sync"
 	"github.com/zcong1993/utils/colors"
 	"github.com/zcong1993/utils/terminal"
 	"gopkg.in/alecthomas/kingpin.v2"
@@ -16,7 +17,7 @@ var (
 	// GitCommit is commit hash for version
 	GitCommit = ""
 	// Version is app version
-	Version = "v0.2.0"
+	Version = "v0.3.0"
 )
 
 var (
@@ -40,6 +41,10 @@ var (
 	deleteAllCmd = app.Command("delete-all", "delete all notes.")
 
 	flushCmd = app.Command("flush", "flush note db.")
+
+	saveCmd = app.Command("save", "save db to qiniu.")
+
+	loadCmd = app.Command("load", "load db to qiniu.")
 
 	version = app.Command("version", "Show note cli version.")
 )
@@ -130,6 +135,14 @@ func main() {
 		deleteAll(db)
 	case getCmd.FullCommand():
 		get(db)
+	case saveCmd.FullCommand():
+		c := sync.NewClient()
+		c.Upload()
+	case loadCmd.FullCommand():
+		c := sync.NewClient()
+		c.Download()
+	default:
+		showVersion()
 	}
 }
 

@@ -53,3 +53,12 @@ func Int64ToBytes(i int64) []byte {
 func BytesToInt64(buf []byte) int64 {
 	return int64(binary.BigEndian.Uint64(buf))
 }
+
+// IsFileExists return if file exists
+func IsFileExists(f string) bool {
+	_, err := os.Stat(f)
+	if err != nil {
+		return false
+	}
+	return true
+}
