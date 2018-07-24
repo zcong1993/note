@@ -15,8 +15,11 @@ import (
 )
 
 const (
+	// SYNC_CONFIG_NAME if sync client config filename
 	SYNC_CONFIG_NAME = "note_sync_config"
-	DB_Name          = ".note.bolt.db"
+	// DBName is bolt db filename
+	DBName          = ".note.bolt.db"
+	// FILE_NAME is qiniu s3 file key
 	FILE_NAME        = "note-nolt.db"
 )
 
