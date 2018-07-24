@@ -1,6 +1,6 @@
 # Gopkg.toml example
 #
-# Refer to https://github.com/golang/dep/blob/master/docs/Gopkg.toml.md
+# Refer to https://golang.github.io/dep/docs/Gopkg.toml.html
 # for detailed Gopkg.toml documentation.
 #
 # required = ["github.com/user/thing/cmd/thing"]
@@ -16,8 +16,13 @@
 #   source = "github.com/myfork/project2"
 #
 # [[override]]
-#  name = "github.com/x/y"
-#  version = "2.4.0"
+#   name = "github.com/x/y"
+#   version = "2.4.0"
+#
+# [prune]
+#   non-go = false
+#   go-tests = true
+#   unused-packages = true
 
 
 [[constraint]]
@@ -26,19 +31,27 @@
 
 [[constraint]]
   name = "github.com/go-xorm/xorm"
-  version = "0.6.6"
+  version = "0.7.0"
 
 [[constraint]]
   name = "github.com/mattn/go-sqlite3"
-  version = "1.6.0"
+  version = "1.9.0"
 
 [[constraint]]
   branch = "master"
   name = "github.com/mitchellh/go-homedir"
 
 [[constraint]]
+  name = "github.com/qiniu/api.v7"
+  version = "7.2.4"
+
+[[constraint]]
+  name = "github.com/spf13/viper"
+  version = "1.0.2"
+
+[[constraint]]
   name = "github.com/stretchr/testify"
-  version = "1.2.1"
+  version = "1.2.2"
 
 [[constraint]]
   branch = "master"
@@ -47,3 +60,7 @@
 [[constraint]]
   name = "gopkg.in/alecthomas/kingpin.v2"
   version = "2.2.6"
+
+[prune]
+  go-tests = true
+  unused-packages = true
