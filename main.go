@@ -17,7 +17,7 @@ var (
 	// GitCommit is commit hash for version
 	GitCommit = ""
 	// Version is app version
-	Version = "v0.3.0"
+	Version = "v0.3.1"
 )
 
 var (
@@ -44,7 +44,9 @@ var (
 
 	saveCmd = app.Command("save", "save db to qiniu.")
 
-	loadCmd = app.Command("load", "load db to qiniu.")
+	loadCmd = app.Command("load", "load db from qiniu.")
+
+	force = loadCmd.Flag("force", "if force load").Bool()
 
 	version = app.Command("version", "Show note cli version.")
 )
@@ -140,7 +142,7 @@ func main() {
 		c.Upload()
 	case loadCmd.FullCommand():
 		c := sync.NewClient()
-		c.Download()
+		c.Download(*force)
 	default:
 		showVersion()
 	}

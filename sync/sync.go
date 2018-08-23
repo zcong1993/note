@@ -98,9 +98,9 @@ func (c *Client) getUrl() string {
 }
 
 // Download can load the db from
-func (c *Client) Download() {
+func (c *Client) Download(force bool) {
 	ff := utils.MustGetDb(DB_Name)
-	if utils.IsFileExists(ff) {
+	if utils.IsFileExists(ff) && !force {
 		fmt.Printf("db file exists, delete it if you want to force load. %s \n", ff)
 		return
 	}
