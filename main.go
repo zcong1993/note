@@ -26,7 +26,7 @@ var (
 	addTxts = addCmd.Arg("content", "not content").Required().Strings()
 
 	showCmd = app.Command("show", "show a note by id.")
-	showId  = showCmd.Arg("id", "note id").Required().Int()
+	showId  = showCmd.Arg("id", "note id").Required().Int64()
 
 	listCmd = app.Command("list", "show all notes.").Default()
 
@@ -122,14 +122,18 @@ func get(db internal.DB) {
 }
 
 func show(db internal.DB) {
-	notes, err := db.GetNotes(1, *showId-1)
+	notes, err := db.GetAll()
 	if err != nil {
 		terminal.LogErrPad(err)
 		return
 	}
 	if len(notes) > 0 {
-		fmt.Println(notes[0].Txt)
-		return
+		for _, note := range notes {
+			if note.Id == *showId {
+				fmt.Println(note.Txt)
+				return
+			}
+		}
 	}
 }
 
