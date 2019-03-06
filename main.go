@@ -25,6 +25,9 @@ var (
 	addCmd  = app.Command("add", "add a note.")
 	addTxts = addCmd.Arg("content", "not content").Required().Strings()
 
+	showCmd = app.Command("show", "show a note by id.")
+	showId  = showCmd.Arg("id", "note id").Required().Int()
+
 	listCmd = app.Command("list", "show all notes.").Default()
 
 	deleteCmd = app.Command("delete", "delete a note by id.")
@@ -118,6 +121,18 @@ func get(db internal.DB) {
 	internal.ShowNotes(notes)
 }
 
+func show(db internal.DB) {
+	notes, err := db.GetNotes(1, *showId-1)
+	if err != nil {
+		terminal.LogErrPad(err)
+		return
+	}
+	if len(notes) > 0 {
+		fmt.Println(notes[0].Txt)
+		return
+	}
+}
+
 func main() {
 	db := bolt.NewBoltDB()
 	switch kingpin.MustParse(app.Parse(os.Args[1:])) {
@@ -143,6 +158,8 @@ func main() {
 	case loadCmd.FullCommand():
 		c := sync.NewClient()
 		c.Download(*force)
+	case showCmd.FullCommand():
+		show(db)
 	default:
 		showVersion()
 	}
